@@ -1,21 +1,21 @@
 package com.borikov.task4.entity;
 
 public class User {
-    private long userId;
+    private Long userId;
     private String login;
     private String password;
 
-    public User(long userId, String login, String password) {
+    public User(Long userId, String login, String password) {
         this.userId = userId;
         this.login = login;
         this.password = password;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -44,18 +44,20 @@ public class User {
             return false;
         }
         User user = (User) o;
-        if (userId != user.userId) {
+        if (userId != null ? !userId.equals(user.userId) : user.userId != null) {
             return false;
         }
         if (login != null ? !login.equals(user.login) : user.login != null) {
             return false;
         }
-        return password != null ? password.equals(user.password) : user.password == null;
+        return password != null
+                ? password.equals(user.password)
+                : user.password == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (userId ^ (userId >>> 32));
+        int result = userId != null ? userId.hashCode() : 0;
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
