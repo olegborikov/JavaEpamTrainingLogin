@@ -30,7 +30,7 @@ public class LoginCommand implements Command {
                 page = PagePath.LOGIN;
             }
         } catch (ServiceException e) {
-            LOGGER.log(Level.ERROR, "Error with database", e);
+            LOGGER.log(Level.ERROR, "Error while login user", e);
             request.setAttribute(RequestParameter.ERROR_MESSAGE, e);
             page = PagePath.ERROR;
         }

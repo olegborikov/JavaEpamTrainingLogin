@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
             }
             return result;
         } catch (DaoException | NoSuchAlgorithmException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Error while checking user for existing", e);
         }
     }
 }

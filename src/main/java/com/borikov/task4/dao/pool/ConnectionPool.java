@@ -19,7 +19,7 @@ public class ConnectionPool {
         config.setUsername(USERNAME);
         config.setPassword(PASSWORD);
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        config.addDataSourceProperty("useSSL",false);
+        config.addDataSourceProperty("useSSL", false);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
