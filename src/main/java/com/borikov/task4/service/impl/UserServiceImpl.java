@@ -8,6 +8,10 @@ import com.borikov.task4.exception.ServiceException;
 import com.borikov.task4.service.UserService;
 import com.borikov.task4.validator.UserValidator;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -16,18 +20,23 @@ public class UserServiceImpl implements UserService {
         try {
             UserValidator userValidator = new UserValidator();
             UserDao userDao = new UserDaoImpl();
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
             boolean result = false;
             if (userValidator.isLoginCorrect(login)
                     && userValidator.isPasswordCorrect(password)) {
                 Optional<User> userOptional = userDao.findByLogin(login);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
+                    messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
+                    byte[] passwordEncodedBytes = messageDigest.digest();
+                    BigInteger passwordBigInt = new BigInteger(1, passwordEncodedBytes);
+                    String passwordEncrypted = passwordBigInt.toString(16);
                     result = user.getLogin().equals(login)
-                            && user.getPassword().equals(password);
+                            && user.getPassword().equals(passwordEncrypted);
                 }
             }
             return result;
-        } catch (DaoException e) {
+        } catch (DaoException | NoSuchAlgorithmException e) {
             throw new ServiceException(e);
         }
     }

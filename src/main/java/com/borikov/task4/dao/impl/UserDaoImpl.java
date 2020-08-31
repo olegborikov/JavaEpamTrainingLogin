@@ -26,9 +26,10 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             Optional<User> userOptional = Optional.empty();
-            resultSet.next();
-            User user = createUserFromResultSet(resultSet);
-            userOptional = Optional.of(user);
+            if (resultSet.next()) {
+                User user = createUserFromResultSet(resultSet);
+                userOptional = Optional.of(user);
+            }
             return userOptional;
         } catch (SQLException e) {
             throw new DaoException("Finding user by login error", e);
